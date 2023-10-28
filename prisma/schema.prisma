@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type Address {
+  city    String?
+  state   String?
+  country String?
+  zipCode String?
+  lat     String?
+  lng     String?
+}
+
+type Media {
+  key String
+  url String
+}
+
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  email       String   @unique
+  password    String
+  phone       String?
+  address     Address
+  active      Boolean  @default(true)
+  verified    Boolean  @default(false)
+  verifiedAt  DateTime
+  agency      Agency?
+  reviewGiven Review[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Agency {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  description String?
+  documents   Media[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  services    Service[]
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String    @unique @db.ObjectId
+}
+
+model Service {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  category          String
+  short_description String
+  long_description  String?
+  documents         Media[]
+  agency            Agency?  @relation(fields: [agencyId], references: [id])
+  agencyId          String?  @db.ObjectId
+  reviews           Review[]
+}
+
+model Review {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating    Float
+  comment   String
+  Service   Service? @relation(fields: [serviceId], references: [id])
+  serviceId String?  @db.ObjectId
+  author    User?    @relation(fields: [authorId], references: [id])
+  authorId  String?  @db.ObjectId
+}

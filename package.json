@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.js"
   },
   "keywords": [],
-  "author": "Mihai Adrian Andrei",
+  "author": "Syket Das",
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "^4.6.0",

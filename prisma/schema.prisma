@@ -25,22 +25,24 @@ type Media {
 }
 
 model User {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  email       String   @unique
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  fullName    String
+  email       String    @unique
   password    String
   phone       String?
-  address     Address
-  active      Boolean  @default(true)
-  verified    Boolean  @default(false)
-  verifiedAt  DateTime
+  address     Address?
+  active      Boolean   @default(true)
+  verified    Boolean   @default(false)
+  verifiedAt  DateTime?
   agency      Agency?
   reviewGiven Review[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Agency {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
   description String?
   documents   Media[]
   createdAt   DateTime  @default(now())

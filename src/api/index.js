@@ -5,6 +5,8 @@ const users = require('./users/users.routes');
 const agency = require('./agency/agency.routes');
 const service = require('./service/service.routes');
 const review = require('./review/review.routes');
+const event = require('./event/event.routes');
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -18,5 +20,6 @@ router.use('/users', users);
 router.use('/agency', agency);
 router.use('/service', service);
 router.use('/review', review);
+router.use('/event', event);
 
 module.exports = router;

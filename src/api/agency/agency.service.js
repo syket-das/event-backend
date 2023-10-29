@@ -1,5 +1,25 @@
 const { db } = require('../../utils/db');
 
+const allAgencies = () => {
+  return db.agency.findMany();
+};
+
+const getAgencyById = (agencyId) => {
+  return db.agency.findUnique({
+    where: {
+      id: agencyId,
+    },
+    include: {
+      Event: true,
+      services: {
+        include: {
+          reviews: true,
+        },
+      },
+    },
+  });
+};
+
 const getAgency = (userId) => {
   return db.agency.findUnique({
     where: {
@@ -30,4 +50,6 @@ module.exports = {
   getAgency,
   createAgency,
   updateAgency,
+  allAgencies,
+  getAgencyById,
 };

@@ -92,7 +92,7 @@ router.get('/all', async (req, res, next) => {
   try {
     const services = await allServices();
 
-    res.status(200).json(services);
+    res.status(200).json({ services });
   } catch (error) {
     next(error);
   }

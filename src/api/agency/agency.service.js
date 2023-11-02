@@ -1,7 +1,12 @@
 const { db } = require('../../utils/db');
 
 const allAgencies = () => {
-  return db.agency.findMany();
+  return db.agency.findMany({
+    include: {
+      user: true,
+      services: true,
+    },
+  });
 };
 
 const getAgencyById = (agencyId) => {

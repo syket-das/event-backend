@@ -24,6 +24,12 @@ type Media {
   url String
 }
 
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
+
 model User {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   fullName    String
@@ -38,6 +44,7 @@ model User {
   reviewGiven Review[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  role        Role      @default(USER)
 }
 
 model Agency {

@@ -8,7 +8,15 @@ const getServices = (agencyId) => {
   });
 };
 const allServices = () => {
-  return db.service.findMany();
+  return db.service.findMany({
+    include: {
+      agency: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
 };
 const serviceDetails = (serviceId) => {
   return db.service.findUnique({

@@ -21,6 +21,9 @@ function findUserById(id) {
     where: {
       id,
     },
+    include: {
+      agency: true,
+    },
   });
 }
 

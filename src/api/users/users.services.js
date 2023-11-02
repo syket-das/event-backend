@@ -36,9 +36,33 @@ const updateUser = (id, body) => {
   });
 };
 
+const allUsers = () => {
+  return db.user.findMany({
+    include: {
+      agency: true,
+    },
+  });
+};
+
+const allMaintainers = () => {
+  return db.user.findMany({
+    where: {
+      NOT: {
+        role: 'USER',
+      },
+    },
+
+    include: {
+      agency: true,
+    },
+  });
+};
+
 module.exports = {
   findUserByEmail,
   findUserById,
   createUser,
   updateUser,
+  allUsers,
+  allMaintainers,
 };

@@ -1,6 +1,11 @@
 const express = require('express');
 const { isAuthenticated } = require('../../middlewares');
-const { findUserById, updateUser } = require('./users.services');
+const {
+  findUserById,
+  updateUser,
+  allUsers,
+  allMaintainers,
+} = require('./users.services');
 
 const router = express.Router();
 
@@ -27,6 +32,24 @@ router.put('/profile/update', isAuthenticated, async (req, res, next) => {
     const user = await updateUser(userId, { fullName, phone, address });
 
     res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/all', isAuthenticated, async (req, res) => {
+  try {
+    const users = await allUsers();
+    res.json({ users });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/allMaintainers', isAuthenticated, async (req, res) => {
+  try {
+    const maintainers = await allMaintainers();
+    res.json({ maintainers });
   } catch (error) {
     next(error);
   }

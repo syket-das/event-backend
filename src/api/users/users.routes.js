@@ -37,7 +37,7 @@ router.put('/profile/update', isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.get('/all', isAuthenticated, async (req, res) => {
+router.get('/all', isAuthenticated, async (req, res, next) => {
   try {
     const users = await allUsers();
     res.json({ users });
@@ -46,7 +46,7 @@ router.get('/all', isAuthenticated, async (req, res) => {
   }
 });
 
-router.get('/allMaintainers', isAuthenticated, async (req, res) => {
+router.get('/allMaintainers', isAuthenticated, async (req, res, next) => {
   try {
     const maintainers = await allMaintainers();
     res.json({ maintainers });

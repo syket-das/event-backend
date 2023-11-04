@@ -6,6 +6,7 @@ const agency = require('./agency/agency.routes');
 const service = require('./service/service.routes');
 const review = require('./review/review.routes');
 const event = require('./event/event.routes');
+const category = require('./category/category.routes');
 
 const router = express.Router();
 
@@ -21,5 +22,6 @@ router.use('/agency', agency);
 router.use('/service', service);
 router.use('/review', review);
 router.use('/event', event);
+router.use('/category', category);
 
 module.exports = router;

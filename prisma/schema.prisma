@@ -31,20 +31,21 @@ enum Role {
 }
 
 model User {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  fullName    String
-  email       String    @unique
-  password    String
-  phone       String?
-  address     Address?
-  active      Boolean   @default(true)
-  verified    Boolean   @default(false)
-  verifiedAt  DateTime?
-  agency      Agency?
-  reviewGiven Review[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  role        Role      @default(USER)
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  fullName       String
+  email          String           @unique
+  password       String
+  phone          String?
+  address        Address?
+  active         Boolean          @default(true)
+  verified       Boolean          @default(false)
+  verifiedAt     DateTime?
+  agency         Agency?
+  reviewGiven    Review[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  role           Role             @default(USER)
+  ServiceRequest ServiceRequest[]
 }
 
 model Agency {
@@ -58,12 +59,55 @@ model Agency {
   user        User      @relation(fields: [userId], references: [id])
   userId      String    @unique @db.ObjectId
   Event       Event[]
+  bids        Bid[]
+}
+
+model Category {
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  name            String           @unique
+  description     String
+  services        Service[]
+  serviceRequests ServiceRequest[]
+
+  disabled Boolean @default(false)
+}
+
+model Bid {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  serviceRequest   ServiceRequest @relation(fields: [serviceRequestId], references: [id])
+  serviceRequestId String         @db.ObjectId
+
+  agency   Agency @relation(fields: [agencyId], references: [id])
+  agencyId String @db.ObjectId
+
+  price   Float
+  message String
+}
+
+model ServiceRequest {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String   @db.ObjectId
+  category       Category @relation(fields: [categoryId], references: [id])
+  categoryId     String   @db.ObjectId
+  title          String?
+  brief          String
+  address        Address?
+  startDate      DateTime
+  endDate        DateTime
+  lowestBudget   Float
+  highestBudget  Float
+  manPowerNeeded Boolean
+
+  requestApproval Boolean
+  bids            Bid[]
 }
 
 model Service {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   title             String
-  category          String
+  category          Category @relation(fields: [categoryId], references: [id])
+  categoryId        String   @db.ObjectId
   short_description String
   long_description  String?
   documents         Media[]

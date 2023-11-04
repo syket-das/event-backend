@@ -3,7 +3,7 @@ const { db } = require('../../utils/db');
 const createServiceRequest = (userId, body) => {
   return db.serviceRequest.create({
     data: {
-      userId,
+      userId: userId,
       ...body,
     },
   });

@@ -3,6 +3,7 @@ const { isAuthenticated } = require('../../middlewares');
 const {
   allServiceRequests,
   createServiceRequest,
+  updateServiceRequest,
 } = require('./serviceRequest.service');
 
 const router = express.Router();
@@ -47,6 +48,7 @@ router.post('/create', isAuthenticated, async (req, res, next) => {
 
     res.status(200).json({ serviceRequest });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });

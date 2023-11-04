@@ -100,7 +100,7 @@ model ServiceRequest {
   highestBudget  Float
   manPowerNeeded Boolean
 
-  requestApproval Boolean
+  requestApproval Boolean?
   bids            Bid[]
 
   approvedAgency Agency? @relation(fields: [agencyId], references: [id])

@@ -115,8 +115,8 @@ model Service {
   short_description String
   long_description  String?
   documents         Media[]
-  agency            Agency?  @relation(fields: [agencyId], references: [id])
-  agencyId          String?  @db.ObjectId
+  agency            Agency   @relation(fields: [agencyId], references: [id])
+  agencyId          String   @db.ObjectId
   reviews           Review[]
 }
 

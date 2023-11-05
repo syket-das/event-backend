@@ -34,7 +34,7 @@ router.get('/me', isAuthenticated, async (req, res, next) => {
 
 router.post('/create', isAuthenticated, async (req, res, next) => {
   const { id: userId } = req.payload;
-  const { title, category, short_description, long_description, documents } =
+  const { title, categoryId, short_description, long_description, documents } =
     req.body;
 
   try {
@@ -46,7 +46,7 @@ router.post('/create', isAuthenticated, async (req, res, next) => {
 
     const newService = await createService(agency.id, {
       title,
-      category,
+      categoryId,
       short_description,
       long_description,
       documents,

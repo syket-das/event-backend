@@ -75,6 +75,7 @@ router.get('/all', async (req, res, next) => {
       agencies,
     });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });

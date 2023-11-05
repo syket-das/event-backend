@@ -4,6 +4,7 @@ const {
   allServiceRequests,
   createServiceRequest,
   updateServiceRequest,
+  serviceRequestDetails,
 } = require('./serviceRequest.service');
 
 const router = express.Router();
@@ -65,6 +66,25 @@ router.patch('/:id/update', isAuthenticated, async (req, res, next) => {
     }
 
     const serviceRequest = await updateServiceRequest(id, { requestApproval });
+
+    res.status(200).json({ serviceRequest });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+router.get('/:id', isAuthenticated, async (req, res, next) => {
+  try {
+    const { id: userId } = req.payload;
+
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Id is required' });
+    }
+
+    const serviceRequest = await serviceRequestDetails(id);
 
     res.status(200).json({ serviceRequest });
   } catch (error) {

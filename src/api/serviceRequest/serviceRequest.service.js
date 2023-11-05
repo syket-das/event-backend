@@ -29,7 +29,9 @@ const serviceRequestDetails = (serviceRequestId) => {
           agency: true,
         },
       },
+      category: true,
       user: true,
+      approvedAgency: true,
     },
   });
 };

@@ -81,8 +81,9 @@ model Bid {
   agency   Agency @relation(fields: [agencyId], references: [id])
   agencyId String @db.ObjectId
 
-  price   Float
-  message String
+  price    Float
+  message  String
+  accepted Boolean @default(false)
 }
 
 model ServiceRequest {

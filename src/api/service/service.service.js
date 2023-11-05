@@ -15,6 +15,7 @@ const allServices = () => {
           user: true,
         },
       },
+      category: true,
     },
   });
 };

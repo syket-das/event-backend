@@ -10,7 +10,12 @@ const createServiceRequest = (userId, body) => {
 };
 
 const allServiceRequests = () => {
-  return db.serviceRequest.findMany();
+  return db.serviceRequest.findMany({
+    include: {
+      category: true,
+      user: true,
+    },
+  });
 };
 
 const serviceRequestDetails = (serviceRequestId) => {
@@ -29,13 +34,13 @@ const serviceRequestDetails = (serviceRequestId) => {
   });
 };
 
-const updateServiceRequest = (body) => {
+const updateServiceRequest = (id, body) => {
   return db.serviceRequest.update({
     where: {
-      id: body.id,
+      id,
     },
     data: {
-      requestApproval: body.requestApproval,
+      requestApproval: body.requestApproval || false,
     },
   });
 };

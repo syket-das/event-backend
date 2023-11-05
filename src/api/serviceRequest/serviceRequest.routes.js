@@ -53,20 +53,22 @@ router.post('/create', isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.put('/:id/update', async (req, res) => {
+router.patch('/:id/update', isAuthenticated, async (req, res, next) => {
   try {
+    const { id: userId } = req.payload;
+
     const { id } = req.params;
     const { requestApproval } = req.body;
+
     if (!id) {
       return res.status(400).json({ message: 'Id is required' });
     }
-    if (!requestApproval) {
-      return res.status(400).json({ message: 'RequestApproval is required' });
-    }
-    const serviceRequest = await updateServiceRequest(req.body);
+
+    const serviceRequest = await updateServiceRequest(id, { requestApproval });
 
     res.status(200).json({ serviceRequest });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 });

@@ -15,7 +15,6 @@ const getAgencyById = (agencyId) => {
       id: agencyId,
     },
     include: {
-      Event: true,
       services: {
         include: {
           reviews: true,

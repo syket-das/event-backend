@@ -46,6 +46,9 @@ model User {
   updatedAt      DateTime         @updatedAt
   role           Role             @default(USER)
   ServiceRequest ServiceRequest[]
+
+  createdEvents      Event[]             @relation(name: "creator-event")
+  eventSubscriptions EventSubscription[] @relation(name: "user-eventSubscription")
 }
 
 model Agency {
@@ -58,7 +61,6 @@ model Agency {
   services    Service[]
   user        User      @relation(fields: [userId], references: [id])
   userId      String    @unique @db.ObjectId
-  Event       Event[]
   bids        Bid[]
 }
 
@@ -128,15 +130,29 @@ model Review {
 }
 
 model Event {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
   startDate   DateTime
-  endDate     DateTime?
+  endDate     DateTime
   address     Address?
-  gathering   String?
+  thumbnail   Media
   documents   Media[]
 
-  agency   Agency @relation(fields: [agencyId], references: [id])
-  agencyId String @db.ObjectId
+  creatorId     String              @db.ObjectId
+  creator       User                @relation(fields: [creatorId], references: [id], name: "creator-event")
+  subscriptions EventSubscription[]
+}
+
+model EventSubscription {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id], name: "user-eventSubscription")
+  userId  String @db.ObjectId
+
+  paid Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

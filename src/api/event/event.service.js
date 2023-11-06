@@ -1,14 +1,27 @@
 const { db } = require('../../utils/db');
 
-const createEvent = (agencyId, body) => {
+const createEvent = (creatorId, body) => {
   return db.event.create({
     data: {
       ...body,
-      agencyId,
+      creatorId: creatorId,
+    },
+  });
+};
+
+const getEventById = (id) => {
+  return db.event.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      creator: true,
+      subscriptions: true,
     },
   });
 };
 
 module.exports = {
   createEvent,
+  getEventById,
 };

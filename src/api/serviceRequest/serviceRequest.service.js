@@ -28,10 +28,12 @@ const serviceRequestDetails = (serviceRequestId) => {
         include: {
           agency: true,
         },
+        orderBy: {
+          price: 'asc',
+        },
       },
       category: true,
       user: true,
-      approvedAgency: true,
     },
   });
 };

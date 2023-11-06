@@ -5,16 +5,25 @@ const {
   updateBid,
   createBid,
 } = require('./bid.service');
+const { getAgency } = require('../agency/agency.service');
 
 const router = express.Router();
 
 router.post('/create', isAuthenticated, async (req, res, next) => {
-  const { serviceRequestId, agencyId, price, message } = req.body;
+  const { id: userId } = req.payload;
+
+  const { serviceRequestId, price, message } = req.body;
 
   try {
+    const agency = await getAgency(userId);
+
+    if (!agency) {
+      return res.status(404).json({ message: 'Agency not found' });
+    }
+
     const bid = await createBid({
       serviceRequestId,
-      agencyId,
+      agencyId: agency.id,
       price,
       message,
     });
@@ -23,7 +32,6 @@ router.post('/create', isAuthenticated, async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-  get;
 });
 
 router.put('/:id/update', isAuthenticated, async (req, res, next) => {

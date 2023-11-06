@@ -49,18 +49,17 @@ model User {
 }
 
 model Agency {
-  id             String           @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
-  description    String?
-  documents      Media[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  services       Service[]
-  user           User             @relation(fields: [userId], references: [id])
-  userId         String           @unique @db.ObjectId
-  Event          Event[]
-  bids           Bid[]
-  ServiceRequest ServiceRequest[]
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  documents   Media[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  services    Service[]
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String    @unique @db.ObjectId
+  Event       Event[]
+  bids        Bid[]
 }
 
 model Category {
@@ -103,9 +102,6 @@ model ServiceRequest {
 
   requestApproval Boolean?
   bids            Bid[]
-
-  approvedAgency Agency? @relation(fields: [agencyId], references: [id])
-  agencyId       String? @db.ObjectId
 }
 
 model Service {

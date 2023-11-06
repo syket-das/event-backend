@@ -23,7 +23,7 @@ const updateBid = (bidId, body) => {
   return db.bid.update({
     where: { id: bidId },
     data: {
-      ...body,
+      accepted: body.accepted ? body.accepted : false,
     },
   });
 };
